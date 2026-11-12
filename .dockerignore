@@ -1,0 +1,46 @@
+# Dependencies & build artifacts
+node_modules
+.pnpm-store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js build output (rebuilt inside container)
+.next
+out
+dist
+
+# Git metadata
+.git
+.gitignore
+
+# Environment files (secrets injected at runtime)
+.env
+.env.*
+!.env.example
+
+# Development & test artifacts
+tests
+scratch
+*.test.ts
+*.spec.ts
+coverage
+
+# TypeScript cache
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# Editor & OS
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Docker files themselves (avoid recursive context)
+docker-compose.yml
+docker-compose.*.yml
+Dockerfile*
+
+# Local docs
+README.md
+DIAGNOSTIC_REPORT.md

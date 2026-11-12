@@ -1,0 +1,2 @@
+"app_user" "md5df95a083f2ffc14041b12b231ffc9146"
+"pgbouncer_admin" "md5df95a083f2ffc14041b12b231ffc9146"

@@ -1,0 +1,247 @@
+# ════════════════════════════════════════════════════════════════
+# EraySame Tech Academy — Enterprise Multi-Service Deployment Stack
+# Services: Next.js Web + Worker Daemon + PgBouncer + PostgreSQL 16 + Redis
+# Updated: 2026-10-17 — Phase 6 hardening
+# ════════════════════════════════════════════════════════════════
+
+services:
+  # ─── 1. Next.js Web Application ──────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: academy-enterprise-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test:
+        - "CMD"
+        - "wget"
+        - "--quiet"
+        - "--tries=1"
+        - "--spider"
+        - "http://localhost:3000/api/health?probe=liveness"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    environment:
+      NODE_ENV: production
+
+      # ─── Database (via PgBouncer pool proxy) ───────────────────
+      DATABASE_URL: "postgresql://app_user:${POSTGRES_PASSWORD}@pgbouncer:6432/academy_db?sslmode=disable&pgbouncer=true&connect_timeout=5"
+      DIRECT_URL: "postgresql://app_user:${POSTGRES_PASSWORD}@db:5432/academy_db?sslmode=disable"
+
+      # ─── Rate Limiting (Upstash Redis) ─────────────────────────
+      UPSTASH_REDIS_REST_URL: "${UPSTASH_REDIS_REST_URL}"
+      UPSTASH_REDIS_REST_TOKEN: "${UPSTASH_REDIS_REST_TOKEN}"
+
+      # ─── Authentication (Clerk) ────────────────────────────────
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}"
+      CLERK_SECRET_KEY: "${CLERK_SECRET_KEY}"
+      CLERK_WEBHOOK_SECRET: "${CLERK_WEBHOOK_SECRET}"
+      NEXT_PUBLIC_CLERK_SIGN_IN_URL: /login
+      NEXT_PUBLIC_CLERK_SIGN_UP_URL: /signup
+      NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: /dashboard
+      NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL: /dashboard
+
+      # ─── Background Jobs (Inngest) ─────────────────────────────
+      INNGEST_SIGNING_KEY: "${INNGEST_SIGNING_KEY}"
+      INNGEST_EVENT_KEY: "${INNGEST_EVENT_KEY}"
+
+      # ─── Payment Gateway (Sifalo Pay) ──────────────────────────
+      SIFALO_PAY_USERNAME: "${SIFALO_PAY_USERNAME}"
+      SIFALO_PAY_API_KEY: "${SIFALO_PAY_API_KEY}"
+      SIFALO_PAY_API_URL: "${SIFALO_PAY_API_URL}"
+      SIFALO_WEBHOOK_SECRET: "${SIFALO_WEBHOOK_SECRET}"
+      SIFALO_MERCHANT_ZAAD: "${SIFALO_MERCHANT_ZAAD}"
+      SIFALO_MERCHANT_EDAHAB: "${SIFALO_MERCHANT_EDAHAB}"
+      SIFALO_MERCHANT_PREMIER_WALLET: "${SIFALO_MERCHANT_PREMIER_WALLET}"
+      SIFALO_MERCHANT_PREMIER_ACCOUNT: "${SIFALO_MERCHANT_PREMIER_ACCOUNT}"
+
+      # ─── Video Streaming (Mux) ─────────────────────────────────
+      NEXT_PUBLIC_MUX_ENV_KEY: "${NEXT_PUBLIC_MUX_ENV_KEY}"
+      MUX_ENV_ID: "${MUX_ENV_ID}"
+      MUX_WEBHOOK_SECRET: "${MUX_WEBHOOK_SECRET}"
+      MUX_SIGNING_KEY_ID: "${MUX_SIGNING_KEY_ID}"
+      MUX_SIGNING_PRIVATE_KEY: "${MUX_SIGNING_PRIVATE_KEY}"
+
+      # ─── Email (Resend) ────────────────────────────────────────
+      RESEND_API_KEY: "${RESEND_API_KEY}"
+      RESEND_FROM_EMAIL: "${RESEND_FROM_EMAIL}"
+      RESEND_WEBHOOK_SECRET: "${RESEND_WEBHOOK_SECRET}"
+      SENDER_EMAIL: "${SENDER_EMAIL}"
+
+      # ─── Analytics (PostHog) ───────────────────────────────────
+      POSTHOG_KEY: "${POSTHOG_KEY}"
+      NEXT_PUBLIC_POSTHOG_KEY: "${NEXT_PUBLIC_POSTHOG_KEY}"
+      NEXT_PUBLIC_POSTHOG_HOST: "${NEXT_PUBLIC_POSTHOG_HOST}"
+      POSTHOG_PROJECT_ID: "${POSTHOG_PROJECT_ID}"
+
+      # ─── Real-Time WebSockets (Pusher) ─────────────────────────
+      PUSHER_APP_ID: "${PUSHER_APP_ID}"
+      PUSHER_KEY: "${PUSHER_KEY}"
+      PUSHER_SECRET: "${PUSHER_SECRET}"
+      PUSHER_CLUSTER: "${PUSHER_CLUSTER}"
+      NEXT_PUBLIC_PUSHER_KEY: "${NEXT_PUBLIC_PUSHER_KEY}"
+      NEXT_PUBLIC_PUSHER_CLUSTER: "${PUSHER_CLUSTER}"
+
+      # ─── File Storage (UploadThing) ────────────────────────────
+      UPLOADTHING_TOKEN: "${UPLOADTHING_TOKEN}"
+
+      # ─── Error Monitoring (Sentry) ────────────────────────────
+      NEXT_PUBLIC_SENTRY_DSN: "${NEXT_PUBLIC_SENTRY_DSN}"
+      SENTRY_ORG: "${SENTRY_ORG}"
+      SENTRY_PROJECT: "${SENTRY_PROJECT}"
+      SENTRY_AUTH_TOKEN: "${SENTRY_AUTH_TOKEN}"
+
+      # ─── Search (Meilisearch) ──────────────────────────────────
+      MEILISEARCH_URL: "${MEILISEARCH_URL:-http://meilisearch:7700}"
+      MEILISEARCH_MASTER_KEY: "${MEILISEARCH_MASTER_KEY}"
+
+      # ─── Internal Monitoring ───────────────────────────────────
+      INTERNAL_METRICS_TOKEN: "${INTERNAL_METRICS_TOKEN}"
+
+      # ─── Admin Panel ───────────────────────────────────────────
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
+
+    depends_on:
+      pgbouncer:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    networks:
+      - enterprise-net
+
+  # ─── 2. Dedicated Background Worker Daemon ─────────────────────────
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    container_name: academy-enterprise-worker
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      WORKER_ID: "worker-prod-01"
+
+      # ─── Database ──────────────────────────────────────────────
+      DATABASE_URL: "postgresql://app_user:${POSTGRES_PASSWORD}@pgbouncer:6432/academy_db?sslmode=disable&pgbouncer=true&connect_timeout=5"
+      DIRECT_URL: "postgresql://app_user:${POSTGRES_PASSWORD}@db:5432/academy_db?sslmode=disable"
+
+      # ─── Email ─────────────────────────────────────────────────
+      RESEND_API_KEY: "${RESEND_API_KEY}"
+      RESEND_FROM_EMAIL: "${RESEND_FROM_EMAIL}"
+      SENDER_EMAIL: "${SENDER_EMAIL}"
+
+      # ─── Background Jobs ───────────────────────────────────────
+      INNGEST_SIGNING_KEY: "${INNGEST_SIGNING_KEY}"
+      INNGEST_EVENT_KEY: "${INNGEST_EVENT_KEY}"
+
+      # ─── Error Monitoring ──────────────────────────────────────
+      NEXT_PUBLIC_SENTRY_DSN: "${NEXT_PUBLIC_SENTRY_DSN}"
+      SENTRY_AUTH_TOKEN: "${SENTRY_AUTH_TOKEN}"
+      SENTRY_ORG: "${SENTRY_ORG}"
+      SENTRY_PROJECT: "${SENTRY_PROJECT}"
+
+    depends_on:
+      pgbouncer:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    networks:
+      - enterprise-net
+
+  # ─── 3. PgBouncer Connection Pooler Proxy Sidecar ─────────────────
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    container_name: academy-enterprise-pgbouncer
+    restart: unless-stopped
+    ports:
+      - "6432:6432"
+    volumes:
+      - ./docker/pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini:ro
+      - ./docker/pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - enterprise-net
+
+  # ─── 4. Managed PostgreSQL 16 Enterprise Database ─────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: academy-enterprise-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: academy_db
+    volumes:
+      - postgres-enterprise-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app_user -d academy_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - enterprise-net
+
+  # ─── 5. Redis Cache & PubSub Server ────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: academy-enterprise-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-enterprise-data:/data
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "512mb", "--maxmemory-policy", "allkeys-lru"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks:
+      - enterprise-net
+
+  # ─── 6. Meilisearch Full-Text Search Engine (optional self-hosted) ──
+  meilisearch:
+    image: getmeili/meilisearch:v1.10
+    container_name: academy-meilisearch
+    restart: unless-stopped
+    ports:
+      - "7700:7700"
+    environment:
+      MEILI_MASTER_KEY: "${MEILISEARCH_MASTER_KEY:-masterKey}"
+      MEILI_ENV: "production"
+      MEILI_DB_PATH: "/meili_data"
+    volumes:
+      - meili-data:/meili_data
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:7700/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - enterprise-net
+    profiles:
+      - search  # Optional: enable with `docker compose --profile search up`
+
+volumes:
+  postgres-enterprise-data:
+    driver: local
+  redis-enterprise-data:
+    driver: local
+  meili-data:
+    driver: local
+
+networks:
+  enterprise-net:
+    driver: bridge

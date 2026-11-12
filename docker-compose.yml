@@ -1,0 +1,110 @@
+# ════════════════════════════════════════════════════════════════
+# EraySame Tech Academy — Local Development Stack
+# Services: Next.js App + PostgreSQL 16 + Redis
+#
+# Usage:
+#   docker compose up -d              # start all services
+#   docker compose down -v            # stop and remove volumes
+#   docker compose logs -f app        # follow app logs
+#   docker compose exec db psql -U app_user -d academy_db
+# ════════════════════════════════════════════════════════════════
+
+services:
+  # ─── Next.js Application ───────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: academy-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "postgresql://app_user:dev_secret@db:5432/academy_db?sslmode=disable&pgbouncer=false&connect_timeout=5"
+      DIRECT_URL: "postgresql://app_user:dev_secret@db:5432/academy_db?sslmode=disable"
+      UPSTASH_REDIS_REST_URL: "${UPSTASH_REDIS_REST_URL}"
+      UPSTASH_REDIS_REST_TOKEN: "${UPSTASH_REDIS_REST_TOKEN}"
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}"
+      CLERK_SECRET_KEY: "${CLERK_SECRET_KEY}"
+      CLERK_WEBHOOK_SECRET: "${CLERK_WEBHOOK_SECRET}"
+      NEXT_PUBLIC_CLERK_SIGN_IN_URL: /login
+      NEXT_PUBLIC_CLERK_SIGN_UP_URL: /signup
+      NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: /dashboard
+      NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL: /dashboard
+      SIFALO_PAY_USERNAME: "${SIFALO_PAY_USERNAME}"
+      SIFALO_PAY_API_KEY: "${SIFALO_PAY_API_KEY}"
+      SIFALO_PAY_API_URL: "${SIFALO_PAY_API_URL}"
+      SIFALO_WEBHOOK_SECRET: "${SIFALO_WEBHOOK_SECRET}"
+      RESEND_API_KEY: "${RESEND_API_KEY}"
+      RESEND_FROM_EMAIL: "${RESEND_FROM_EMAIL:-onboarding@resend.dev}"
+      SENDER_EMAIL: "${SENDER_EMAIL}"
+      INNGEST_SIGNING_KEY: "${INNGEST_SIGNING_KEY:-}"
+      INNGEST_EVENT_KEY: "${INNGEST_EVENT_KEY:-}"
+      NEXT_PUBLIC_MUX_ENV_KEY: "${NEXT_PUBLIC_MUX_ENV_KEY}"
+      UPLOADTHING_TOKEN: "${UPLOADTHING_TOKEN}"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - academy-net
+
+  # ─── PostgreSQL 16 ─────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: academy-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: dev_secret
+      POSTGRES_DB: academy_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app_user -d academy_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - academy-net
+
+  # ─── Redis (Upstash-compatible local instance) ─────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: academy-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks:
+      - academy-net
+
+volumes:
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+
+networks:
+  academy-net:
+    driver: bridge

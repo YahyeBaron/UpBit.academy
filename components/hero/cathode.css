@@ -1,0 +1,347 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   CATHODE HERO  —  EraySame Tech Academy
+   All classes are scoped under .cathode-* so nothing leaks to the rest.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Container ────────────────────────────────────────────────────────── */
+.cathode-container {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 680px;
+  background: #05080f;   /* = --bg-base */
+  color: #f1f5f9;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+/* ── WebGL canvas ─────────────────────────────────────────────────────── */
+.cathode-gl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  opacity: 0;
+  animation: cathode-rise 0.9s ease 0.05s forwards;
+}
+@keyframes cathode-rise { to { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .cathode-gl { opacity:1; animation:none } }
+
+/* ── Overlay grid ─────────────────────────────────────────────────────── */
+/*
+  Three rows:
+    [top]    navbar bar
+    [mid]    hero copy — left-aligned, vertically centred
+    [bot]    "move to orbit" hint
+*/
+.cathode-ui {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: clamp(20px, 2.6vw, 40px) clamp(24px, 3.2vw, 56px);
+  gap: 0;
+}
+.cathode-ui a,
+.cathode-ui button { pointer-events: auto; cursor: pointer; text-decoration: none; }
+.cathode-ui a:focus-visible,
+.cathode-ui button:focus-visible {
+  outline: 2px solid rgba(59,130,246,.65);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+/* ── Top bar ─────────────────────────────────────────────────────────── */
+.cathode-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Brand */
+.cathode-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: start;
+  transition: opacity .18s ease;
+}
+.cathode-brand:hover { opacity: .82 }
+
+.cathode-wordmark { display:flex; flex-direction:column; line-height:1 }
+.cathode-wordmark-name {
+  font-size: clamp(13px,1.05vw,16px);
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: #fff;
+}
+.cathode-wordmark-sub {
+  font-size: clamp(9px,.66vw,11px);
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg,#3b82f6,#06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-top: 3px;
+}
+
+/* Pill nav */
+.cathode-pill {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(12,20,45,.5);
+  border: 1px solid rgba(59,130,246,.14);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+}
+.cathode-pill-link {
+  display: block;
+  padding: .58em 1.1em;
+  border-radius: 999px;
+  font-size: clamp(11px,.83vw,13px);
+  font-weight: 500;
+  color: #64748b;
+  white-space: nowrap;
+  transition: color .18s ease, background .18s ease;
+}
+.cathode-pill-link:hover { color: #e2e8f0; background: rgba(59,130,246,.1) }
+
+/* Auth */
+.cathode-auth-row {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cathode-ghost-btn {
+  display: inline-block;
+  padding: .6em 1.2em;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.12);
+  font-size: clamp(11px,.83vw,13px);
+  font-weight: 500;
+  color: #94a3b8;
+  transition: color .18s ease, background .18s ease, border-color .18s ease;
+}
+.cathode-ghost-btn:hover { color:#fff; background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.22) }
+
+.cathode-join-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  padding: .6em 1.25em;
+  border-radius: 999px;
+  font-size: clamp(11px,.83vw,13px);
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg,#2563eb 0%,#0ea5e9 100%);
+  box-shadow: 0 0 20px rgba(37,99,235,.38);
+  transition: filter .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.cathode-join-btn:hover { filter:brightness(1.1); box-shadow:0 0 34px rgba(37,99,235,.6); transform:translateY(-1px) }
+.cathode-join-btn:active { transform:translateY(1px) }
+
+.cathode-btn-arrow { width:.75em; height:.75em; display:block; flex-shrink:0 }
+
+/* ── Hero copy — RIGHT side, vertically centred in the mid row ────────── */
+.cathode-copy {
+  align-self: center;             /* vertically centre in the 1fr row */
+  justify-self: end;              /* pin to RIGHT — CRT workstation lives on the left */
+  max-width: min(540px, 48vw);    /* comfortable width that never crowds the 3D scene */
+  padding-top: 24px;              /* optical push away from navbar */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* Eyebrow */
+.cathode-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(10px,.78vw,12px);
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #3b82f6;
+  margin-bottom: clamp(14px,1.2vw,22px);
+  opacity: 0;
+  animation: cathode-fade-up .8s cubic-bezier(0.16, 1, 0.3, 1) .25s forwards;
+}
+.cathode-eyebrow-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+  animation: cathode-pulse-dot 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes cathode-pulse-dot {
+  0%,100% { box-shadow: 0 0 4px #34d399 }
+  50%      { box-shadow: 0 0 14px #34d399 }
+}
+
+/* Headline — two powerful short lines, massive contrast */
+.cathode-headline {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 clamp(16px,1.4vw,28px);
+  line-height: 1;
+}
+.cathode-headline-line1 {
+  font-size: clamp(42px,6.5vw,96px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: #f1f5f9;
+  opacity: 0;
+  animation: cathode-fade-up .9s cubic-bezier(0.16, 1, 0.3, 1) .45s forwards;
+}
+.cathode-headline-line2 {
+  font-size: clamp(42px,6.5vw,96px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  /* gradient accent on the second line only */
+  background: linear-gradient(90deg, #60a5fa 0%, #38bdf8 40%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0;
+  animation: cathode-fade-up .9s cubic-bezier(0.16, 1, 0.3, 1) .6s forwards;
+}
+
+/* Sub-headline */
+.cathode-sub {
+  font-size: clamp(14px,1.15vw,18px);
+  font-weight: 400;
+  line-height: 1.65;
+  color: #64748b;
+  max-width: 38ch;
+  margin-bottom: clamp(24px,2.2vw,40px);
+  opacity: 0;
+  animation: cathode-fade-up .85s cubic-bezier(0.16, 1, 0.3, 1) .75s forwards;
+}
+
+/* CTA */
+.cathode-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .65em;
+  padding: .9em 1.8em;
+  border-radius: 999px;
+  font-size: clamp(13px,1vw,15px);
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+  box-shadow:
+    0 0 30px rgba(37,99,235,.45),
+    inset 0 1px 0 rgba(255,255,255,.1);
+  transition: filter .3s cubic-bezier(0.16, 1, 0.3, 1), transform .3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .3s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  animation: cathode-fade-up .85s cubic-bezier(0.16, 1, 0.3, 1) .9s forwards;
+}
+.cathode-cta:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 55px rgba(37,99,235,.75), inset 0 1px 0 rgba(255,255,255,.2);
+  transform: translateY(-2px);
+}
+.cathode-cta:active { transform: translateY(0) }
+.cathode-cta:hover .cathode-btn-arrow {
+  transform: translateX(4px);
+}
+.cathode-btn-arrow {
+  transition: transform .25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Micro footnote */
+.cathode-footnote {
+  margin-top: clamp(14px,1.2vw,22px);
+  font-size: clamp(10px,.75vw,12px);
+  font-weight: 500;
+  color: #334155;
+  letter-spacing: .04em;
+  opacity: 0;
+  animation: cathode-fade-up .8s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards;
+}
+
+/* Shared entrance animation */
+@keyframes cathode-fade-up {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cathode-eyebrow, .cathode-headline-line1, .cathode-headline-line2,
+  .cathode-sub, .cathode-cta, .cathode-footnote {
+    opacity: 1; animation: none;
+  }
+}
+
+/* ── Bottom hint ──────────────────────────────────────────────────────── */
+.cathode-foot {
+  align-self: end;
+  display: flex;
+  justify-content: flex-start;
+  padding-bottom: 4px;
+}
+.cathode-hint {
+  font-size: clamp(9px,.68vw,11px);
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #334155;
+  animation: cathode-hint-pulse 3.5s ease-in-out infinite;
+}
+@keyframes cathode-hint-pulse {
+  0%, 100% { opacity: 0.55; transform: translateY(0); }
+  50% { opacity: 0.95; transform: translateY(-3px); }
+}
+.cathode-hint::before {
+  content: "";
+  display: inline-block;
+  width: 1.6em; height: 1px;
+  margin-right: .9em;
+  vertical-align: middle;
+  background: #334155;
+}
+.cathode-hint::after { content: "Move to orbit" }
+@media (hover:none) { .cathode-hint::after { content: "Drag to orbit" } }
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .cathode-pill  { display: none }
+  .cathode-bar   { grid-template-columns: 1fr auto }
+  .cathode-copy  {
+    max-width: min(480px, 85vw);
+    justify-self: center;
+    align-self: end;
+    margin-bottom: 24px;
+  }
+  .cathode-join-btn { display: none }
+}
+@media (max-width: 640px) {
+  .cathode-copy {
+    max-width: 100%;
+    padding: 0;
+    justify-self: center;
+  }
+  .cathode-headline-line1,
+  .cathode-headline-line2 {
+    font-size: clamp(34px, 10vw, 48px);
+  }
+  .cathode-ghost-btn { padding: .55em 1em }
+}

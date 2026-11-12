@@ -1,0 +1,123 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+env:
+  # Minimal dev defaults for CI (no real secrets required for build/lint/test)
+  DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci_db?schema=public"
+  DIRECT_URL: "postgresql://ci:ci@localhost:5432/ci_db?schema=public"
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_placeholder_for_ci_build"
+  CLERK_SECRET_KEY: "sk_test_placeholder_for_ci_build"
+  SIFALO_PAY_USERNAME: "ci_placeholder"
+  SIFALO_PAY_API_KEY: "ci_placeholder"
+  SIFALO_PAY_API_URL: "https://api.sifalopay.com/v1/payment"
+  SIFALO_WEBHOOK_SECRET: "ci_placeholder_secret_at_least_32_characters_long"
+  INTERNAL_METRICS_TOKEN: "ci_placeholder_token_at_least_32_characters_long"
+  NODE_ENV: "test"
+
+jobs:
+  quality-gates:
+    name: Quality Gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      # ── 1. Checkout ─────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Setup Node ────────────────────────────────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # ── 3. Setup pnpm ────────────────────────────────────────────────────────
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10'
+
+      # ── 4. Install with frozen lockfile ─────────────────────────────────────
+      - name: Install dependencies (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      # ── 5. Generate Prisma client ────────────────────────────────────────────
+      - name: Generate Prisma client
+        run: pnpm exec prisma generate
+
+      # ── 6. Lint ──────────────────────────────────────────────────────────────
+      - name: Lint
+        run: pnpm run lint
+
+      # ── 7. Type check ────────────────────────────────────────────────────────
+      - name: Type check
+        run: pnpm run typecheck
+
+      # ── 8. Unit & integration tests ──────────────────────────────────────────
+      - name: Run tests
+        run: pnpm test
+
+      # ── 9. Production build ──────────────────────────────────────────────────
+      - name: Build (production)
+        run: pnpm run build
+        env:
+          # Use a well-formed but non-functional DB URL to allow Prisma generate
+          # and Next.js build to succeed without a live database
+          DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci_db?schema=public"
+
+  # ── Migration safety check ──────────────────────────────────────────────────
+  migration-check:
+    name: Migration Compatibility
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Only run on PRs to avoid slowing down every push
+    if: github.event_name == 'pull_request'
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: ci_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10'
+
+      - name: Install dependencies (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      - name: Run migrations on fresh database
+        run: pnpm exec prisma migrate deploy
+        env:
+          DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci_db"
+          DIRECT_URL: "postgresql://ci:ci@localhost:5432/ci_db"
+
+      - name: Verify schema matches migrations
+        run: pnpm exec prisma migrate status
+        env:
+          DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci_db"
+          DIRECT_URL: "postgresql://ci:ci@localhost:5432/ci_db"
