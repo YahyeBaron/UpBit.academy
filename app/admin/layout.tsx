@@ -42,7 +42,7 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#020813] text-white flex flex-col font-sans">
+    <div className="min-h-screen bg-[#000000] text-white flex flex-col font-sans selection:bg-[#4d65ff] selection:text-white">
       <DbKeepAlive />
       
       {/* ── Admin Top Navigation Bar ── */}
@@ -56,7 +56,7 @@ export default async function AdminLayout({
           </Link>
           <div className="h-4 w-px bg-white/10" />
           <div className="flex items-center gap-2">
-            <span className="flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/10 border border-blue-500/20 text-blue-400 px-2.5 py-1 rounded-full">
+            <span className="flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider bg-[#4d65ff]/15 border border-[#4d65ff]/30 text-[#a5b4fc] px-2.5 py-1 rounded-full font-space-grotesk">
               <ShieldCheck size={11} /> Admin Control Panel
             </span>
           </div>

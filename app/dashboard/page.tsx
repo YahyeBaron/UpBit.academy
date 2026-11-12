@@ -42,23 +42,26 @@ export default async function StudentDashboardPage() {
       <div className="max-w-7xl mx-auto space-y-10">
         
         {/* 1. Hero / Welcome Banner */}
-        <div className="relative rounded-3xl border border-white/10 bg-gradient-to-r from-blue-950/60 via-slate-900/80 to-black p-8 md:p-10 overflow-hidden shadow-2xl">
-          <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[radial-gradient(ellipse_at_top_right,rgba(56,189,248,0.25),transparent_70%)] pointer-events-none" />
-          <div className="absolute -left-10 -bottom-10 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative rounded-3xl border border-white/10 bg-gradient-to-r from-[#0d1a3a]/80 via-[#1a0d3a]/60 to-black p-8 md:p-10 overflow-hidden shadow-2xl">
+          <div
+            className="absolute right-0 top-0 bottom-0 w-1/2 pointer-events-none"
+            style={{ background: 'radial-gradient(ellipse at top right, rgba(178, 63, 224, 0.2), transparent 70%)' }}
+          />
+          <div className="absolute -left-10 -bottom-10 w-64 h-64 bg-[#4d65ff]/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="space-y-3 max-w-2xl">
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5">
-                  <Sparkles size={13} className="text-cyan-400" />
-                  {hasEnrollments ? 'Welcome back!' : 'Welcome to EraySame Tech Academy!'}
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#4d65ff]/15 text-[#a5b4fc] border border-[#4d65ff]/30 flex items-center gap-1.5 font-space-grotesk">
+                  <Sparkles size={13} className="text-[#b23fe0]" />
+                  {hasEnrollments ? 'Welcome back!' : 'Welcome to UpBit Academy!'}
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                   Student Member
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-space-grotesk text-white tracking-tight">
                 {userName}
               </h1>
 
@@ -66,7 +69,7 @@ export default async function StudentDashboardPage() {
                 {hasEnrollments ? (
                   <>You are on a <strong className="text-orange-400 font-bold">{streak}-day learning streak</strong>! Complete today&apos;s lesson to maintain your momentum.</>
                 ) : (
-                  <>Start your learning journey today! Explore our industry-leading courses in Next.js, WebGL, and Fullstack SaaS development.</>
+                  <>Start your learning journey today! Explore our industry-leading courses in Forward Deployed Engineering, Applied AI, and production systems.</>
                 )}
               </p>
             </div>
@@ -76,18 +79,22 @@ export default async function StudentDashboardPage() {
               {hasEnrollments ? (
                 <Link
                   href={`/courses/${enrolledCourses[0]?.slug}/learn`}
-                  className="flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-extrabold text-sm hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-xl shadow-blue-600/30 hover:shadow-blue-600/50 hover:-translate-y-0.5"
+                  className="button is-chamfer is-grad w-button flex items-center justify-center gap-2"
+                  style={{ padding: '14px 28px', fontSize: '0.95rem', fontWeight: 700, textDecoration: 'none' }}
                 >
                   <PlayCircle size={18} />
-                  Continue Learning
+                  Resume Learning
+                  <ArrowRight size={16} />
                 </Link>
               ) : (
                 <Link
                   href="/courses"
-                  className="flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-extrabold text-sm hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-xl shadow-blue-600/30 hover:shadow-blue-600/50 hover:-translate-y-0.5"
+                  className="button is-chamfer is-grad w-button flex items-center justify-center gap-2"
+                  style={{ padding: '14px 28px', fontSize: '0.95rem', fontWeight: 700, textDecoration: 'none' }}
                 >
-                  <GraduationCap size={18} />
-                  Browse All Courses
+                  <BookOpen size={18} />
+                  Explore Courses
+                  <ArrowRight size={16} />
                 </Link>
               )}
             </div>

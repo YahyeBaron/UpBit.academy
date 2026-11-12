@@ -335,7 +335,7 @@ function CheckoutContent() {
 
   // ─── Main checkout ─────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#020813] text-white font-sans selection:bg-blue-500 selection:text-white">
+    <div className="min-h-screen bg-[#000000] text-white font-sans selection:bg-[#4d65ff] selection:text-white">
       <Navbar />
 
       <section className="relative pt-32 pb-24 overflow-hidden">
@@ -379,7 +379,7 @@ function CheckoutContent() {
               </div>
               <Link
                 href={`/login?redirect_url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname + window.location.search : `/checkout?course=${selectedCourse.slug}`)}`}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold text-xs text-center shrink-0 transition-all shadow-md shadow-blue-500/20"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#4d65ff] to-[#b23fe0] hover:opacity-90 text-white font-bold text-xs text-center shrink-0 transition-all shadow-md shadow-[#4d65ff]/20"
               >
                 Sign In / Sign Up
               </Link>
@@ -494,7 +494,7 @@ function CheckoutContent() {
                       type="button"
                       onClick={applyCoupon}
                       disabled={validatingCoupon || !coupon.trim()}
-                      className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white text-xs font-bold transition-all shadow-md shadow-blue-500/20"
+                      className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#4d65ff] to-[#b23fe0] hover:opacity-90 disabled:opacity-50 text-white text-xs font-bold transition-all shadow-md shadow-[#4d65ff]/20"
                     >
                       {validatingCoupon ? <Loader2 size={13} className="animate-spin" /> : 'Apply'}
                     </button>

@@ -86,9 +86,9 @@ export default async function AdminDashboardOverview() {
       {/* ── Page Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-blue-400 mb-2">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#4d65ff] mb-2 font-space-grotesk">
             <ShieldCheck size={14} />
-            <span>EraySame Tech Academy — Super Admin Control Center</span>
+            <span>UpBit Academy — Super Admin Control Center</span>
           </div>
           <h1 className="text-3xl font-black text-white tracking-tight">
             Platform Overview

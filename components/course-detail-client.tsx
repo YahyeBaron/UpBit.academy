@@ -140,7 +140,7 @@ export default function CourseDetailClientPage({
   };
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-blue-500 selection:text-white font-sans">
+    <div className="min-h-screen bg-black text-white selection:bg-[#4d65ff] selection:text-white font-sans">
       <Navbar />
 
       {/* Video Modal Component */}
@@ -149,7 +149,7 @@ export default function CourseDetailClientPage({
           <div className="relative w-full max-w-4xl rounded-3xl border border-white/15 bg-[#030a1a] overflow-hidden shadow-2xl space-y-4 p-4 sm:p-6">
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#4d65ff] animate-pulse" />
                 <h3 className="text-sm font-bold text-white truncate max-w-md">{activeVideoTitle}</h3>
               </div>
               <button
@@ -168,13 +168,13 @@ export default function CourseDetailClientPage({
                   playbackId={activePlaybackId}
                   tokens={previewTokens || undefined}
                   metadata={{ video_title: activeVideoTitle }}
-                  accentColor="#3b82f6"
+                  accentColor="#4d65ff"
                   autoPlay
                   className="w-full h-full object-cover"
                 />
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-[#040e1a] via-[#020813] to-black text-center p-6">
-                  <PlayCircle size={40} className="text-blue-400 opacity-60" />
+                  <PlayCircle size={40} className="text-[#4d65ff] opacity-60" />
                   <p className="text-white font-bold text-base">{activeVideoTitle}</p>
                   <p className="text-xs text-gray-400 max-w-sm">
                     Preview video is not currently available for this lesson. Enroll in the course to access all content and resources.
@@ -187,7 +187,7 @@ export default function CourseDetailClientPage({
               <p className="text-xs text-gray-400">Like this preview? Enroll now to get access to all {course.totalLessons} lessons!</p>
               <Link
                 href={`/checkout?course=${course.slug}`}
-                className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-500 transition-colors"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#4d65ff] to-[#b23fe0] text-white font-bold text-xs hover:opacity-90 transition-opacity"
               >
                 Enroll Now — ${course.price}
               </Link>
@@ -197,8 +197,13 @@ export default function CourseDetailClientPage({
       )}
 
       {/* Hero Header */}
-      <section className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-b from-[#030d20] via-black to-black border-b border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(29,78,216,0.2),transparent_60%)]" />
+      <section className="relative pt-36 pb-20 overflow-hidden bg-gradient-to-b from-[#080d22] via-[#030612] to-black border-b border-white/10">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at top left, rgba(77, 101, 255, 0.2), transparent 60%)',
+          }}
+        />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
@@ -211,13 +216,13 @@ export default function CourseDetailClientPage({
                 <span>/</span>
                 <span className="capitalize">{course.category}</span>
                 <span>/</span>
-                <span className="text-blue-400 truncate max-w-[200px]">{course.title}</span>
+                <span className="text-[#a5b4fc] truncate max-w-[200px]">{course.title}</span>
               </div>
 
               {/* Course Series Badge if part of a track */}
               {course.seriesName && (
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500/15 via-purple-500/15 to-pink-500/15 border border-indigo-500/30 text-xs font-bold text-indigo-300">
-                  <Compass size={14} className="text-indigo-400 shrink-0" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#4d65ff]/15 via-[#b23fe0]/15 to-[#4d65ff]/15 border border-[#4d65ff]/30 text-xs font-bold text-[#a5b4fc]">
+                  <Compass size={14} className="text-[#4d65ff] shrink-0" />
                   <span>Part of {course.seriesName} • Week {course.seriesOrder ?? 0}</span>
                   <Link href="/courses" className="text-purple-300 hover:text-white underline ml-1.5 font-normal">
                     View Track RoadMap →
@@ -226,7 +231,7 @@ export default function CourseDetailClientPage({
               )}
 
               {/* Title & Tagline */}
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-space-grotesk text-white tracking-tight leading-tight">
                 {course.title}
               </h1>
 
@@ -430,7 +435,14 @@ export default function CourseDetailClientPage({
                     <div className="space-y-3">
                       <Link
                         href={`/checkout?course=${course.slug}`}
-                        className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black text-base hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 shadow-xl shadow-blue-600/30 hover:shadow-blue-600/50 hover:-translate-y-0.5"
+                        className="button is-chamfer is-grad w-button w-full flex items-center justify-center gap-2"
+                        style={{
+                          padding: '16px 28px',
+                          fontSize: '1rem',
+                          fontWeight: 700,
+                          textDecoration: 'none',
+                          boxShadow: '0 10px 30px rgba(77, 101, 255, 0.4)',
+                        }}
                       >
                         Enroll Now — ${course.price}
                         <ArrowRight size={18} />

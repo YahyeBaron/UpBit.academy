@@ -30,7 +30,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="cathode-container" aria-label="EraySame Tech Academy">
+    <section className="cathode-container" aria-label="UpBit Academy">
       {/* WebGL CRT scene */}
       <CathodeScene />
 
@@ -39,18 +39,18 @@ export default function HeroSection() {
 
         {/* ── Top bar ── */}
         <header className="cathode-bar">
-          <Link href="/" className="cathode-brand" aria-label="EraySame home">
+          <Link href="/" className="cathode-brand" aria-label="UpBit Academy home">
             <Image
-              src="/assets/logo-eraysame-transparent.png"
-              alt="EraySame logo"
+              src="/assets/images/logo-white.png"
+              alt="UpBit Academy logo"
               width={36}
               height={36}
-              className="object-contain drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]"
+              className="object-contain drop-shadow-[0_0_8px_rgba(77,101,255,0.5)]"
               priority
             />
             <div className="cathode-wordmark">
-              <span className="cathode-wordmark-name">EraySame</span>
-              <span className="cathode-wordmark-sub">Tech Academy</span>
+              <span className="cathode-wordmark-name">UpBit</span>
+              <span className="cathode-wordmark-sub">Academy</span>
             </div>
           </Link>
 

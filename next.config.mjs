@@ -3,6 +3,18 @@ import { withSentryConfig } from '@sentry/nextjs/config';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    optimizePackageImports: [],
+  },
+  // Exclude the raw HTML templates folder from webpack's file watcher so it
+  // never serialises the large HTML string into its pack cache.
+  webpack(config) {
+    config.watchOptions = {
+      ...config.watchOptions,
+      ignored: ['**/node_modules/**', '**/.next/**', '**/templates/**'],
+    };
+    return config;
+  },
   // Standalone output for Docker container (enabled via NEXT_STANDALONE=true)
   output: process.env.NEXT_STANDALONE === 'true' ? 'standalone' : undefined,
   transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
@@ -62,4 +74,5 @@ export default withSentryConfig(nextConfig, {
   widenClientFileUpload: true,
   hideSourceMaps: true,
   disableLogger: true,
+  telemetry: false,
 });

@@ -35,14 +35,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const avatarUrl = isLoaded && user ? user.imageUrl : MOCK_STUDENT.avatar;
 
   return (
-    <div className="min-h-screen bg-[#020814] text-white flex flex-col font-sans">
+    <div className="min-h-screen bg-[#000000] text-white flex flex-col font-sans selection:bg-[#4d65ff] selection:text-white">
       {/* Dashboard Topbar */}
-      <header className="h-16 border-b border-white/10 bg-black/60 backdrop-blur-xl px-6 flex items-center justify-between sticky top-0 z-40">
+      <header className="h-16 border-b border-white/10 bg-black/80 backdrop-blur-xl px-6 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2">
             <Logo imageSize={36} />
           </Link>
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30 uppercase tracking-wider">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#4d65ff]/15 text-[#a5b4fc] border border-[#4d65ff]/30 uppercase tracking-wider font-space-grotesk">
             Student Portal
           </span>
         </div>
@@ -50,14 +50,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         {/* Right Stats & Profile */}
         <div className="flex items-center gap-6">
           {/* Streak Counter */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-bold font-space-grotesk">
             <Flame size={16} className="fill-orange-400" />
             <span>{MOCK_STUDENT.streak} Day Streak!</span>
           </div>
 
           {/* XP Points */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold">
-            <Zap size={16} className="fill-cyan-400" />
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#4d65ff]/10 border border-[#4d65ff]/30 text-[#a5b4fc] text-xs font-bold font-space-grotesk">
+            <Zap size={16} className="fill-[#4d65ff]" />
             <span>{MOCK_STUDENT.totalPoints} XP</span>
           </div>
 
@@ -66,19 +66,30 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             {isLoaded && user ? (
               <>
                 <ClerkLoaded>
-                  <UserButton />
+                  <UserButton
+                    appearance={{
+                      elements: {
+                        avatarBox: {
+                          width: '36px',
+                          height: '36px',
+                          border: '2px solid rgba(77, 101, 255, 0.4)',
+                          borderRadius: '50%',
+                        },
+                      },
+                    }}
+                  />
                 </ClerkLoaded>
                 <ClerkLoading>
-                  <div className="w-9 h-9 rounded-full bg-white/10 animate-pulse border border-blue-500/40" />
+                  <div className="w-9 h-9 rounded-full bg-white/10 animate-pulse border border-[#4d65ff]/40" />
                 </ClerkLoading>
               </>
             ) : (
-              <div className="relative w-9 h-9 rounded-full overflow-hidden border border-blue-500/40">
+              <div className="relative w-9 h-9 rounded-full overflow-hidden border border-[#4d65ff]/40">
                 <Image src={avatarUrl} alt={displayName} fill className="object-cover" />
               </div>
             )}
             <div className="hidden sm:block text-left">
-              <p className="text-xs font-bold text-white">{displayName}</p>
+              <p className="text-xs font-bold text-white font-space-grotesk">{displayName}</p>
               <p className="text-[10px] text-gray-400">{MOCK_STUDENT.level}</p>
             </div>
           </div>
@@ -88,9 +99,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       {/* Main Container */}
       <div className="flex-1 flex">
         {/* Sidebar */}
-        <aside className="w-64 border-r border-white/10 bg-black/40 p-6 flex flex-col justify-between hidden md:flex shrink-0">
+        <aside className="w-64 border-r border-white/10 bg-black/60 p-6 flex flex-col justify-between hidden md:flex shrink-0">
           <div className="space-y-2">
-            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-4 px-3">
+            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-4 px-3 font-space-grotesk">
               Navigation
             </p>
 
@@ -101,9 +112,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold font-space-grotesk transition-all ${
                     isActive
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                      ? 'bg-gradient-to-r from-[#4d65ff] to-[#b23fe0] text-white shadow-lg shadow-[#4d65ff]/30'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >

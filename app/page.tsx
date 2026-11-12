@@ -1,29 +1,19 @@
+import { getCoursesAsync } from '@/lib/db-data';
+import { getHomePageHtml } from '@/lib/home-html';
+import HomePageClient from '@/components/home-page-client';
 import Navbar from '@/components/navbar';
-import HeroSection from '@/components/hero/hero-section';
-import ImpactSection from '@/components/impact-section';
-import TechnologyMarquee from '@/components/tech-marquee';
-import CoursesSection from '@/components/courses-section';
-import PricingSection from '@/components/pricing';
-import BentoFeatures from '@/components/bento-features';
-import Testimonials from '@/components/testimonials';
-import FAQ from '@/components/faq';
-import Footer from '@/components/footer';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-export default function Home() {
+export default async function Home() {
+  const courses = await getCoursesAsync();
+  const html = getHomePageHtml(courses);
+
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-blue-500 selection:text-white font-sans overflow-x-hidden">
+    <>
       <Navbar />
-      <HeroSection />
-      <ImpactSection />
-      <TechnologyMarquee />
-      <CoursesSection />
-      <PricingSection />
-      <BentoFeatures />
-      <Testimonials />
-      <FAQ />
-      <Footer />
-    </div>
+      <HomePageClient html={html} />
+    </>
   );
 }

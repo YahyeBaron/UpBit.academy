@@ -8,9 +8,9 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'Computer Science Learning Path | EraySame Tech Academy',
+  title: '32-Week Curriculum Roadmap | UpBit Academy',
   description:
-    'Master computer science fundamentals from algorithmic problem-solving and systems C to relational databases, full-stack web architecture, and cybersecurity defense.',
+    'Master Forward Deployed Engineering, Applied AI, and production systems architecture across our structured 32-week pathway.',
 };
 
 export default async function RoadmapPage() {
@@ -33,12 +33,15 @@ export default async function RoadmapPage() {
     : null;
 
   return (
-    <div className="min-h-screen bg-[#020814] text-white selection:bg-blue-500 selection:text-white font-sans antialiased">
+    <div className="min-h-screen bg-black text-white selection:bg-[#4d65ff] selection:text-white font-sans antialiased">
       <Navbar />
 
-      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-32 pb-24">
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 pb-24">
         {/* Subtle background ambient lighting */}
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[45rem] h-[25rem] bg-blue-600/[0.07] rounded-full blur-[120px] pointer-events-none" />
+        <div
+          className="absolute top-12 left-1/2 -translate-x-1/2 w-[45rem] h-[25rem] rounded-full blur-[140px] pointer-events-none"
+          style={{ background: 'rgba(77, 101, 255, 0.12)' }}
+        />
 
         <VisualRoadmap
           courses={courses}

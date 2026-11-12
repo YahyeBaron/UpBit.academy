@@ -20,34 +20,39 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Instructors & Faculty | BIT Academy',
+  title: 'Instructors & Faculty | UpBit Academy',
   description:
-    'Learn from world-class senior engineers, software architects, and creative developers leading BIT Academy programs.',
+    'Learn from world-class senior Forward Deployed Engineers, AI architects, and practitioners leading UpBit Academy programs.',
 };
 
 export default async function InstructorsDirectoryPage() {
   const instructors = await getInstructorsAsync();
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-blue-500 selection:text-white flex flex-col font-sans">
+    <div className="min-h-screen bg-black text-white selection:bg-[#4d65ff] selection:text-white flex flex-col font-sans">
       <Navbar />
 
       {/* Hero Header */}
-      <section className="relative pt-36 pb-20 overflow-hidden bg-gradient-to-b from-[#030d22] via-[#010612] to-black border-b border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(29,78,216,0.18),transparent_70%)] pointer-events-none" />
+      <section className="relative pt-36 pb-20 overflow-hidden bg-gradient-to-b from-[#080d22] via-[#030612] to-black border-b border-white/10">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at top, rgba(77, 101, 255, 0.18), transparent 70%)',
+          }}
+        />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider">
-            <Sparkles size={13} className="text-cyan-400" />
-            World-Class Mentors & Industry Leaders
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#4d65ff]/10 border border-[#4d65ff]/30 text-[#a5b4fc] text-xs font-bold uppercase tracking-wider">
+            <Sparkles size={13} className="text-[#b23fe0]" />
+            World-Class Mentors &amp; AI Practitioners
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight">
-            Meet Our <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">Faculty</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-space-grotesk text-white tracking-tight">
+            Meet Our <span className="bg-gradient-to-r from-[#4d65ff] to-[#b23fe0] bg-clip-text text-transparent">Faculty</span>
           </h1>
 
           <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            Gain production-tested insights from active practitioners who build high-scale SaaS products, 3D interactive experiences, and robust architectures every day.
+            Gain production-tested insights from active Forward Deployed Engineers who build high-scale client solutions, agentic workflows, and robust architectures every day.
           </p>
         </div>
       </section>

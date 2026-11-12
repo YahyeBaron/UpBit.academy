@@ -7,34 +7,26 @@ interface LogoProps {
 
 const Logo = ({
   className = '',
-  imageSize = 68,
+  imageSize = 42,
 }: LogoProps) => {
-  const src = '/assets/logo-eraysame-transparent.png';
+  const src = '/assets/images/logo-white.png';
 
   return (
-    <div className={`flex items-center gap-4 select-none ${className}`}>
-      {/* Icon — larger for gradient detail to read clearly */}
+    <div className={`flex items-center gap-3 select-none ${className}`}>
       <div className="flex items-center shrink-0">
         <Image
           src={src}
-          alt="EraySame Logo Mark"
+          alt="UpBit Academy"
           width={imageSize}
           height={imageSize}
-          className="object-contain drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]"
+          className="object-contain"
           priority
         />
       </div>
 
-      {/* Divider — more opaque + slightly wider, breathing room on both sides */}
-      <div className="h-10 w-[1.5px] bg-white/40 mx-2 shrink-0" />
-
-      {/* Wordmark */}
       <div className="flex flex-col justify-center">
-        <span className="text-2xl font-bold tracking-tight text-white font-sans leading-none">
-          EraySame
-        </span>
-        <span className="text-[11px] font-semibold tracking-[0.2em] text-blue-400 uppercase font-sans mt-1">
-          Tech Academy
+        <span className="text-xl font-bold tracking-tight text-white font-space-grotesk leading-none">
+          UpBit <span className="bg-gradient-to-r from-[#4d65ff] to-[#b23fe0] bg-clip-text text-transparent">Academy</span>
         </span>
       </div>
     </div>
