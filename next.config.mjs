@@ -69,7 +69,7 @@ const nextConfig = {
 
 export default withSentryConfig(nextConfig, {
   org: 'bit-9re',
-  project: 'eraysame-tech-inistitute',
+  project: 'upbit-academy',
   silent: !process.env.CI,
   widenClientFileUpload: true,
   hideSourceMaps: true,

@@ -1,5 +1,5 @@
 # ════════════════════════════════════════════════════════════════
-# EraySame Tech Academy — Dedicated Background Worker Dockerfile
+# UpBit Academy — Dedicated Background Worker Dockerfile
 # Base: node:22-alpine | Standalone daemon runner
 # ════════════════════════════════════════════════════════════════
 

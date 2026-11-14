@@ -1,8 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
 import { getInstructorsAsync } from '@/lib/db-data';
 import {
   GraduationCap,
@@ -30,9 +28,6 @@ export default async function InstructorsDirectoryPage() {
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-[#4d65ff] selection:text-white flex flex-col font-sans">
-      <Navbar />
-
-      {/* Hero Header */}
       <section className="relative pt-36 pb-20 overflow-hidden bg-gradient-to-b from-[#080d22] via-[#030612] to-black border-b border-white/10">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -195,8 +190,6 @@ export default async function InstructorsDirectoryPage() {
           </div>
         )}
       </main>
-
-      <Footer />
     </div>
   );
 }

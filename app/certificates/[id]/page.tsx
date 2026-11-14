@@ -82,7 +82,7 @@ export default async function CertificateViewPage({
           </div>
 
           <div>
-            <p className="text-xs font-black tracking-widest text-amber-400 uppercase">EraySame Tech Academy</p>
+            <p className="text-xs font-black tracking-widest text-amber-400 uppercase">UpBit Academy</p>
             <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1">
               Certificate of Completion
             </h1>
@@ -117,7 +117,7 @@ export default async function CertificateViewPage({
             </div>
             <div className="col-span-2 sm:col-span-1 flex flex-col items-center sm:items-end justify-center">
               <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-400">
-                <ShieldCheck size={14} /> EST Verified Credential
+                <ShieldCheck size={14} /> UpBit Verified Credential
               </div>
             </div>
           </div>

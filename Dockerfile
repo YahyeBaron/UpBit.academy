@@ -1,5 +1,5 @@
 # ════════════════════════════════════════════════════════════════
-# EraySame Tech Academy — Multi-Stage Production Dockerfile
+# UpBit Academy — Multi-Stage Production Dockerfile
 # Base: node:22-alpine | Pattern: deps → builder → runner
 # ════════════════════════════════════════════════════════════════
 

@@ -15,7 +15,7 @@ const faqData: FAQItem[] = [
     {
         id: 1,
         category: 'general',
-        question: "Is EraySame Tech Academy suitable for beginners?",
+        question: "Is UpBit Academy suitable for beginners?",
         answer: "Yes! We provide structured paths starting from foundational JavaScript & React up to advanced Next.js 15, 3D WebGL, and SaaS architecture."
     },
     {

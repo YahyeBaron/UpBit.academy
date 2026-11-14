@@ -3,8 +3,6 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
 import {
   CheckCircle,
   AlertCircle,
@@ -114,9 +112,7 @@ function VerifyContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#020813] text-white font-sans">
-      <Navbar />
-
+    <>
       <section className="flex items-center justify-center min-h-[85vh] px-4">
 
         {/* ── LOADING ── */}
@@ -251,8 +247,6 @@ function VerifyContent() {
         )}
 
       </section>
-
-      <Footer />
-    </div>
+    </>
   );
 }

@@ -95,10 +95,10 @@ fetchUserDemo();`,
 </head>
 <body>
   <div class="card">
-    <span class="badge">EraySame Tech Academy Interactive</span>
+    <span class="badge">UpBit Academy Interactive</span>
     <h3>Next.js 15 LMS</h3>
     <p>Practice writing clean code and dynamic styling right inside your lesson environment.</p>
-    <button onclick="alert('Hello from EraySame Sandbox!')">Click Me</button>
+    <button onclick="alert('Hello from UpBit Sandbox!')">Click Me</button>
   </div>
 </body>
 </html>`,

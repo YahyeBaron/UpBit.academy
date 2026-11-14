@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { UserButton, useUser, ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
 import { motion, AnimatePresence } from 'framer-motion';
+import Logo from '@/components/logo';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 15);
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -40,26 +41,24 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Continuous Single Floating Pill Navbar */}
+      {/* ============================================================
+          Single Continuous Floating Sticky Pill Navbar
+          Fixed at top: 1rem, centered, 90% width (max 1280px),
+          pill border-radius, dark semi-transparent glassmorphic blur.
+          ============================================================ */}
       <header
         role="banner"
+        className="site-floating-nav"
         style={{
-          position: 'fixed',
-          top: '1rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '90%',
-          maxWidth: '1280px',
-          zIndex: 99999,
-          backgroundColor: scrolled ? 'rgba(11, 8, 18, 0.88)' : 'rgba(16, 12, 24, 0.76)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          backgroundColor: scrolled ? 'rgba(12, 9, 20, 0.94)' : 'rgba(16, 12, 24, 0.85)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
           border: '1px solid rgba(255, 255, 255, 0.12)',
           borderRadius: '9999px',
           boxShadow: scrolled
             ? '0 16px 40px -10px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08) inset'
-            : '0 10px 30px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) inset',
-          padding: '8px 12px 8px 24px',
+            : '0 10px 32px -8px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05) inset',
+          padding: '7px 12px 7px 22px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -73,89 +72,87 @@ export default function Navbar() {
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '12px',
             textDecoration: 'none',
             flexShrink: 0,
           }}
         >
-          <img
-            src="/assets/images/logo-white.png"
-            alt="UpBit Academy"
-            style={{ height: '38px', width: 'auto', display: 'block', objectFit: 'contain' }}
-          />
-          <span
-            className="font-space-grotesk"
-            style={{
-              fontSize: '1.35rem',
-              fontWeight: 700,
-              color: '#ffffff',
-              letterSpacing: '-0.02em',
-              lineHeight: 1,
-              whiteSpace: 'nowrap',
-            }}
-          >
-            UpBit Academy
-          </span>
+          <Logo imageSize={32} />
         </Link>
 
-        {/* Desktop Navigation Links — Sitting directly on pill wrapper with no inner background blocks */}
+        {/* Navigation Links - Visible on desktop (lg+), transparent background, active purple badge */}
         <nav
           role="navigation"
-          className="hide-tablet"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '24px',
-            margin: '0 16px',
-          }}
+          aria-label="Primary"
+          className="hidden lg:flex items-center gap-3.5 mx-4 bg-transparent border-0 p-0"
         >
-          {navLinks.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              style={{
-                textDecoration: 'none',
-                fontSize: '0.925rem',
-                fontWeight: item.active ? 600 : 500,
-                color: item.active ? '#ffffff' : '#d1d5db',
-                padding: item.active ? '7px 18px' : '7px 10px',
-                borderRadius: item.active ? '9999px' : '0',
-                backgroundColor: item.active ? 'rgba(168, 85, 247, 0.22)' : 'transparent',
-                border: item.active ? '1px solid rgba(168, 85, 247, 0.35)' : '1px solid transparent',
-                transition: 'color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease',
-                whiteSpace: 'nowrap',
-              }}
-              onMouseEnter={(e) => {
-                if (!item.active) e.currentTarget.style.color = '#ffffff';
-              }}
-              onMouseLeave={(e) => {
-                if (!item.active) e.currentTarget.style.color = '#d1d5db';
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navLinks.map((item) => {
+            if (item.active) {
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  style={{
+                    textDecoration: 'none',
+                    fontSize: '0.9rem',
+                    fontWeight: 600,
+                    color: '#ffffff',
+                    backgroundColor: 'rgba(88, 28, 92, 0.55)',
+                    border: '1px solid rgba(168, 85, 247, 0.22)',
+                    borderRadius: '9999px',
+                    padding: '6px 18px',
+                    whiteSpace: 'nowrap',
+                    lineHeight: 1.2,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  {item.label}
+                </Link>
+              );
+            }
+
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                style={{
+                  textDecoration: 'none',
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  color: 'rgba(255, 255, 255, 0.72)',
+                  background: 'transparent',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  borderRadius: 0,
+                  padding: '6px 12px',
+                  transition: 'color 0.2s ease',
+                  whiteSpace: 'nowrap',
+                  lineHeight: 1.2,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#ffffff';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.72)';
+                }}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Right Action Buttons & Circular Phone Icon */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
-          
-          {/* Button 1: Download FDE Jobs Report (Black background #0D0D0D, 1px #444 border, 10px chamfered corners) */}
+
+          {/* Button 1: Download FDE Jobs Report (Black #0D0D0D, 1px #444 border, 10px chamfered corners, desktop xl+) */}
           <div
-            className="hide-tablet"
+            className="hidden xl:inline-flex items-center justify-center p-[1px] bg-[#444444] transition-colors hover:bg-[#666666]"
             style={{
               position: 'relative',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '1px',
-              backgroundColor: '#444444',
               clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
               WebkitClipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
-              transition: 'background-color 0.2s ease',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#666666'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#444444'; }}
           >
             <a
               href={isHome ? '#modal-aim-report' : '/#header'}
@@ -164,10 +161,10 @@ export default function Navbar() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '10px 20px',
+                padding: '9px 18px',
                 backgroundColor: '#0D0D0D',
                 color: '#ffffff',
-                fontSize: '0.875rem',
+                fontSize: '0.85rem',
                 fontWeight: 600,
                 textDecoration: 'none',
                 whiteSpace: 'nowrap',
@@ -184,19 +181,19 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Button 2: Apply Now -> (Pink/Purple gradient background, bold white text, 10px chamfered corners) */}
+          {/* Button 2: Apply Now -> (Pink/Purple gradient background, bold white text, 10px chamfered corners, visible sm+) */}
           {isLoaded && isSignedIn ? (
-            <div className="hide-tablet" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="hidden sm:inline-flex items-center gap-2.5">
               <Link
                 href="/dashboard"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '10px 22px',
+                  padding: '9px 20px',
                   backgroundColor: '#ffffff',
                   color: '#000000',
-                  fontSize: '0.875rem',
+                  fontSize: '0.85rem',
                   fontWeight: 700,
                   textDecoration: 'none',
                   whiteSpace: 'nowrap',
@@ -212,8 +209,8 @@ export default function Navbar() {
                   appearance={{
                     elements: {
                       avatarBox: {
-                        width: '38px',
-                        height: '38px',
+                        width: '36px',
+                        height: '36px',
                         border: '2px solid rgba(168, 85, 247, 0.5)',
                         borderRadius: '50%',
                       },
@@ -222,106 +219,71 @@ export default function Navbar() {
                 />
               </ClerkLoaded>
               <ClerkLoading>
-                <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }} />
+                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }} />
               </ClerkLoading>
             </div>
           ) : (
             <Link
               href="/login"
-              className="hide-tablet"
+              className="hidden sm:inline-flex items-center justify-center cursor-pointer transition-all hover:brightness-110 active:translate-y-0"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '10px 24px',
+                padding: '9px 22px',
                 background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
                 color: '#ffffff',
-                fontSize: '0.9rem',
+                fontSize: '0.875rem',
                 fontWeight: 700,
                 textDecoration: 'none',
                 whiteSpace: 'nowrap',
                 lineHeight: 1,
                 clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
                 WebkitClipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
-                cursor: 'pointer',
-                transition: 'filter 0.2s ease, transform 0.15s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.filter = 'brightness(1.1)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.filter = 'brightness(1)';
-                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
               Apply Now &rarr;
             </Link>
           )}
 
-          {/* Button 3: Vibrant Pink Circular Phone Icon Button */}
+          {/* Button 3: Vibrant Pink Circular Phone Icon Button (Always visible on all screens) */}
           <a
             href="tel:+252634718722"
             data-modal-trigger="modal-contact"
-            className="hide-tablet"
             aria-label="Call UpBit Academy"
             title="Call Us: +252 63 4718722"
+            className="inline-flex items-center justify-center cursor-pointer flex-shrink-0 transition-transform duration-200 hover:scale-105"
             style={{
-              width: '42px',
-              minWidth: '42px',
-              height: '42px',
-              minHeight: '42px',
+              width: '40px',
+              minWidth: '40px',
+              height: '40px',
+              minHeight: '40px',
               borderRadius: '50%',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               background: 'linear-gradient(135deg, #ec4899 0%, #f43f5e 100%)',
               color: '#ffffff',
               boxShadow: '0 4px 16px rgba(236, 72, 153, 0.45)',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
               textDecoration: 'none',
-              cursor: 'pointer',
-              flexShrink: 0,
               border: 'none',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.06)';
-              e.currentTarget.style.boxShadow = '0 6px 22px rgba(236, 72, 153, 0.65)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.boxShadow = '0 4px 16px rgba(236, 72, 153, 0.45)';
             }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="19"
-              height="19"
-              viewBox="0 0 21 21"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
               fill="none"
+              stroke="#ffffff"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               style={{ display: 'block' }}
             >
-              <path
-                d="M15.6382 12.6898L12.0836 13.3786C9.68261 12.1735 8.1995 10.7892 7.33637 8.63133L8.00094 5.0665L6.7447 1.72626L3.50715 1.72626C2.53392 1.72626 1.76754 2.53051 1.91289 3.49282C2.27576 5.8952 3.34569 10.251 6.47323 13.3786C9.75763 16.663 14.4881 18.0882 17.0915 18.6547C18.0969 18.8734 18.9887 18.0891 18.9887 17.0602L18.9887 13.9666L15.6382 12.6898Z"
-                stroke="#ffffff"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
             </svg>
           </a>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Hamburger Button (Visible on screens < lg) */}
           <button
+            type="button"
             onClick={() => setIsOpen(!isOpen)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '8px',
-              display: 'none',
-            }}
-            className="mobile-nav-toggle"
+            className="inline-flex lg:hidden items-center justify-center p-2 rounded-full text-white hover:bg-white/10 transition-colors border-0 bg-transparent cursor-pointer"
             aria-label="Toggle Navigation Menu"
             aria-expanded={isOpen}
           >
@@ -345,12 +307,12 @@ export default function Navbar() {
             transition={{ duration: 0.25, ease: 'easeOut' }}
             style={{
               position: 'fixed',
-              top: '5rem',
+              top: '5.2rem',
               left: '50%',
               transform: 'translateX(-50%)',
               width: '90%',
               maxWidth: '1280px',
-              zIndex: 99998,
+              zIndex: 999,
               backgroundColor: 'rgba(12, 9, 20, 0.98)',
               backdropFilter: 'blur(24px)',
               WebkitBackdropFilter: 'blur(24px)',
@@ -461,14 +423,8 @@ export default function Navbar() {
                     fontFamily: 'Space Grotesk, sans-serif',
                   }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 21" fill="none">
-                    <path
-                      d="M15.6382 12.6898L12.0836 13.3786C9.68261 12.1735 8.1995 10.7892 7.33637 8.63133L8.00094 5.0665L6.7447 1.72626L3.50715 1.72626C2.53392 1.72626 1.76754 2.53051 1.91289 3.49282C2.27576 5.8952 3.34569 10.251 6.47323 13.3786C9.75763 16.663 14.4881 18.0882 17.0915 18.6547C18.0969 18.8734 18.9887 18.0891 18.9887 17.0602L18.9887 13.9666L15.6382 12.6898Z"
-                      stroke="#ffffff"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
                   <span>Call Us (+252 63 4718722)</span>
                 </a>

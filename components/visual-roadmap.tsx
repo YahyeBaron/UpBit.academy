@@ -37,7 +37,7 @@ export interface VisualRoadmapProps {
   initialSelectedWeek?: number;
 }
 
-const STORAGE_KEY = 'eraysame_roadmap_completed_weeks';
+const STORAGE_KEY = 'upbit_roadmap_completed_weeks';
 
 export default function VisualRoadmap({
   courses,

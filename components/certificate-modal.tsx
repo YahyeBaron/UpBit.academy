@@ -39,7 +39,7 @@ export default function CertificateModal({
   };
 
   const copyVerifyLink = () => {
-    navigator.clipboard.writeText(`https://eraysametech.edu/verify/${certificateId}`);
+    navigator.clipboard.writeText(`https://upbit.academy/verify/${certificateId}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -58,7 +58,7 @@ export default function CertificateModal({
 
         {/* Modal Top Badge */}
         <div className="flex items-center justify-center gap-2 text-xs font-bold text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 rounded-full px-4 py-1.5 w-max mx-auto">
-          <Sparkles size={14} /> Official Verified EraySame Tech Academy Certificate
+          <Sparkles size={14} /> Official Verified UpBit Academy Certificate
         </div>
 
         {/* Certificate Printable Canvas Container */}
@@ -78,8 +78,8 @@ export default function CertificateModal({
           {/* Certificate Header */}
           <div className="space-y-2 relative z-10">
             <div className="flex items-center justify-center gap-3 text-amber-400 font-extrabold tracking-widest text-xs uppercase">
-              <Image src="/assets/logo-eraysame-transparent.png" alt="Logo" width={28} height={28} className="object-contain" />
-              EraySame Tech Academy — Institute of Technology
+              <Image src="/assets/images/logo-white.png" alt="Logo" width={28} height={28} className="object-contain" />
+              UpBit Academy — Institute of Technology
             </div>
             <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-100 uppercase">
               Certificate of Completion

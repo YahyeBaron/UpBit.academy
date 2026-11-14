@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
 import { Course } from '@/lib/data';
 import { getCourseImageUrl } from '@/lib/course-image';
 import VisualRoadmap from '@/components/visual-roadmap';
@@ -81,7 +79,6 @@ export default function CoursesCatalogClient({ initialCourses }: CoursesCatalogC
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-[#4d65ff] selection:text-white font-sans">
-      <Navbar />
 
       {/* Header Banner */}
       <section className="relative pt-36 pb-16 overflow-hidden bg-gradient-to-b from-[#080d22] via-[#030612] to-black border-b border-white/10">
@@ -282,7 +279,6 @@ export default function CoursesCatalogClient({ initialCourses }: CoursesCatalogC
         )}
       </section>
 
-      <Footer />
     </div>
   );
 }

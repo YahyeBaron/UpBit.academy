@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
 import { INSTRUCTORS } from '@/lib/data';
 import { getInstructorAsync, getInstructorCoursesAsync, getInstructorsAsync } from '@/lib/db-data';
 import { getCourseImageUrl } from '@/lib/course-image';
@@ -32,8 +30,6 @@ export default async function InstructorProfilePage({
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-blue-500 selection:text-white">
-      <Navbar />
-
       {/* Header Banner */}
       <section className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-b from-[#030d20] via-black to-black border-b border-white/10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(29,78,216,0.15),transparent_70%)]" />
@@ -194,8 +190,6 @@ export default async function InstructorProfilePage({
           </div>
         </section>
       )}
-
-      <Footer />
     </div>
   );
 }

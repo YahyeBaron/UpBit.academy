@@ -1,18 +1,5 @@
 import { Course } from '@/lib/data';
-import fs from 'fs';
-import path from 'path';
-
-// Load the template lazily from templates/home.html — stored outside lib/ so
-// webpack never touches it during module-graph traversal or cache serialisation,
-// eliminating the "Serializing big strings" performance warning.
-let _cachedTemplate: string | null = null;
-function getTemplate(): string {
-  if (!_cachedTemplate) {
-    const filePath = path.join(process.cwd(), 'templates', 'home.html');
-    _cachedTemplate = fs.readFileSync(filePath, 'utf8');
-  }
-  return _cachedTemplate;
-}
+import { HOME_PAGE_TEMPLATE } from '@/lib/home-template';
 
 function escapeHtml(str: unknown): string {
   if (str === null || str === undefined) return '';
@@ -94,8 +81,7 @@ export function getHomePageHtml(courses: Course[]): string {
 </div>
 `;
 
-  return getTemplate()
+  return HOME_PAGE_TEMPLATE
     .replace('<!-- COURSES_GRID_PLACEHOLDER -->', cardsHtml)
     .replace('<!-- VIEW_ALL_BUTTON_PLACEHOLDER -->', viewAllBtnHtml);
 }
-

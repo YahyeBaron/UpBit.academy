@@ -1,4 +1,4 @@
-# 🎓 EraySame Tech Academy — E-Learning Platform
+# 🎓 UpBit Academy — E-Learning Platform
 
 [![Next.js 15](https://img.shields.io/badge/Next.js-15.1.7-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React 19](https://img.shields.io/badge/React-19.0.0-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -239,7 +239,7 @@ ADMIN_PASSWORD=YourSecureSuperAdminPassword!
 
 # ── Email System (Resend) ──
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxx
-RESEND_FROM_EMAIL="EraySame Tech Academy <onboarding@resend.dev>"
+RESEND_FROM_EMAIL="UpBit Academy <onboarding@resend.dev>"
 
 # ── Media & Storage ──
 UPLOADTHING_TOKEN=eyJhcGlLZXkiOi...
@@ -466,4 +466,4 @@ Key entities declared in `prisma/schema.prisma`:
 
 This project is proprietary software. All rights reserved.
 
-Created and maintained with ❤️ by **[Yahye Baron](https://github.com/YahyeBaron)** — **EraySame Tech Academy**.
+Created and maintained with ❤️ by **[Yahye Baron](https://github.com/YahyeBaron)** — **UpBit Academy**.

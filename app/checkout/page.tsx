@@ -5,8 +5,6 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useUser } from '@clerk/nextjs';
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
 import { COURSES, Course } from '@/lib/data';
 import {
   ShieldCheck,
@@ -248,51 +246,41 @@ function CheckoutContent() {
   // ─── No Course Selected / Course Not Found State ─────────────────────────────
   if (!courseSlugParam || (courseNotFound && !selectedCourse && !priceLoading)) {
     return (
-      <div className="min-h-screen bg-[#020813] text-white font-sans">
-        <Navbar />
-        <div className="flex items-center justify-center min-h-[80vh] px-4">
-          <div className="max-w-md w-full text-center space-y-6 p-8 rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl">
-            <div className="w-16 h-16 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center mx-auto">
-              <BookOpen size={28} className="text-blue-400" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-black text-white">No Course Selected</h2>
-              <p className="text-sm text-gray-400 mt-2">
-                {courseNotFound
-                  ? `The requested course "${courseSlugParam}" could not be found.`
-                  : 'Please select a course from our catalog to proceed with checkout.'}
-              </p>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Link
-                href="/courses"
-                className="inline-flex items-center justify-center gap-2 py-3 px-6 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 text-black font-black text-sm hover:opacity-90 transition-all shadow-xl shadow-blue-500/30"
-              >
-                Browse Course Catalog <ArrowRight size={18} />
-              </Link>
-              <Link href="/dashboard" className="text-xs text-gray-400 hover:text-white transition-colors">
-                Go to Dashboard
-              </Link>
-            </div>
+      <div className="flex items-center justify-center min-h-[80vh] px-4">
+        <div className="max-w-md w-full text-center space-y-6 p-8 rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl">
+          <div className="w-16 h-16 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center mx-auto">
+            <BookOpen size={28} className="text-blue-400" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-black text-white">No Course Selected</h2>
+            <p className="text-sm text-gray-400 mt-2">
+              {courseNotFound
+                ? `The requested course "${courseSlugParam}" could not be found.`
+                : 'Please select a course from our catalog to proceed with checkout.'}
+            </p>
+          </div>
+          <div className="flex flex-col gap-3">
+            <Link
+              href="/courses"
+              className="inline-flex items-center justify-center gap-2 py-3 px-6 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 text-black font-black text-sm hover:opacity-90 transition-all shadow-xl shadow-blue-500/30"
+            >
+              Browse Course Catalog <ArrowRight size={18} />
+            </Link>
+            <Link href="/dashboard" className="text-xs text-gray-400 hover:text-white transition-colors">
+              Go to Dashboard
+            </Link>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
-
-  // ─── Loading Skeleton ────────────────────────────────────────────────────────
   if (priceLoading && !selectedCourse) {
     return (
-      <div className="min-h-screen bg-[#020813] text-white font-sans">
-        <Navbar />
-        <div className="flex items-center justify-center min-h-[80vh] px-4">
-          <div className="flex items-center gap-3 text-sm text-gray-400">
-            <Loader2 size={20} className="animate-spin text-blue-400" />
-            Loading course details...
-          </div>
+      <div className="flex items-center justify-center min-h-[80vh] px-4">
+        <div className="flex items-center gap-3 text-sm text-gray-400">
+          <Loader2 size={20} className="animate-spin text-blue-400" />
+          Loading course details...
         </div>
-        <Footer />
       </div>
     );
   }
@@ -300,10 +288,8 @@ function CheckoutContent() {
   // ─── Already enrolled ──────────────────────────────────────────────────────
   if (isAlreadyEnrolled && selectedCourse) {
     return (
-      <div className="min-h-screen bg-[#020813] text-white font-sans">
-        <Navbar />
-        <div className="flex items-center justify-center min-h-[80vh] px-4">
-          <div className="max-w-md w-full text-center space-y-6 p-8 rounded-3xl border border-emerald-500/30 bg-emerald-500/5">
+      <div className="flex items-center justify-center min-h-[80vh] px-4">
+        <div className="max-w-md w-full text-center space-y-6 p-8 rounded-3xl border border-emerald-500/30 bg-emerald-500/5">
             <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto">
               <CheckCircle size={32} className="text-emerald-400" />
             </div>
@@ -324,9 +310,7 @@ function CheckoutContent() {
                 Go to Dashboard
               </Link>
             </div>
-          </div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -335,9 +319,7 @@ function CheckoutContent() {
 
   // ─── Main checkout ─────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#000000] text-white font-sans selection:bg-[#4d65ff] selection:text-white">
-      <Navbar />
-
+    <>
       <section className="relative pt-32 pb-24 overflow-hidden">
         {/* Background glow */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#030d20] via-[#020813] to-[#020813]" />
@@ -604,8 +586,6 @@ function CheckoutContent() {
 
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </>
   );
 }

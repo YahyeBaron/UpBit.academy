@@ -1,6 +1,6 @@
-# EraySame Tech Academy — Enterprise Infrastructure Migration Playbook (Phase 4)
+# UpBit Academy — Enterprise Infrastructure Migration Playbook (Phase 4)
 
-This playbook details the step-by-step operational procedures for scaling **EraySame Tech Academy** beyond serverless boundaries to dedicated worker daemons and dedicated managed PostgreSQL.
+This playbook details the step-by-step operational procedures for scaling **UpBit Academy** beyond serverless boundaries to dedicated worker daemons and dedicated managed PostgreSQL.
 
 ---
 
@@ -22,7 +22,7 @@ Execute the actions in this playbook when any of the following SLA boundaries ar
 
 1. **Build Container Image**:
    ```bash
-   docker build -f Dockerfile.worker -t eraysame-academy-worker:latest .
+   docker build -f Dockerfile.worker -t upbit-academy-worker:latest .
    ```
 2. **Deploy to Render / Fly.io**:
    * Set process command: `npx ts-node --transpile-only scripts/standalone-worker.ts`
@@ -35,7 +35,7 @@ Execute the actions in this playbook when any of the following SLA boundaries ar
 3. **Verify Worker Health**:
    Inspect stdout logs for heartbeat signal:
    ```text
-   [Worker Daemon] Starting EraySame Academy Dedicated Worker (ID: worker-prod-01)
+   [Worker Daemon] Starting UpBit Academy Dedicated Worker (ID: worker-prod-01)
    [Worker Daemon Heartbeat] Total DB Queries: 42 | p95: 12ms
    ```
 

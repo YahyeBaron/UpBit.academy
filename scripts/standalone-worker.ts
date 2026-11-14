@@ -1,6 +1,6 @@
 /**
  * ════════════════════════════════════════════════════════════════
- * EraySame Tech Academy — Standalone Dedicated Worker Daemon
+ * UpBit Academy — Standalone Dedicated Worker Daemon
  * ════════════════════════════════════════════════════════════════
  * This script runs as a persistent background process outside the Next.js
  * HTTP request path. Used for bulk operations, scheduled sync jobs, and
@@ -15,7 +15,7 @@ let isRunning = true;
 const WORKER_ID = process.env.WORKER_ID || `worker-${Math.random().toString(36).substring(2, 9)}`;
 const POLL_INTERVAL_MS = parseInt(process.env.WORKER_POLL_INTERVAL_MS || '10000', 10);
 
-console.log(`[Worker Daemon] Starting EraySame Academy Dedicated Worker (ID: ${WORKER_ID})`);
+console.log(`[Worker Daemon] Starting UpBit Academy Dedicated Worker (ID: ${WORKER_ID})`);
 console.log(`[Worker Daemon] Loaded ${inngestFunctions.length} background step functions.`);
 
 /**

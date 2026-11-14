@@ -1,6 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&display=swap');
 @import "tailwindcss";
 
+:root {
+  --layer-content: 0;
+  --layer-sticky: 20;
+  --layer-nav: 1000;
+  --layer-dropdown: 1010;
+  --layer-drawer: 1020;
+  --layer-modal: 1050;
+  --layer-toast: 1100;
+  --layer-tooltip: 1200;
+}
+
 @theme {
   --font-display: "Space Grotesk", system-ui, sans-serif;
 }
@@ -261,5 +272,79 @@ body {
     display: block !important;
   }
 }
+
+/* ============================================================
+   HERO SECTION & BACKGROUND EXPANSION TO TOP
+   ============================================================ */
+.section_header {
+  position: relative !important;
+  overflow: hidden !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  width: 100% !important;
+}
+
+.section_header .background-img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: top left !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  opacity: 1 !important;
+}
+
+.padding-global.padding-section-medium.add-hero-padding {
+  padding-top: 5.5rem !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+@media screen and (max-width: 767px) {
+  .padding-global.padding-section-medium.add-hero-padding {
+    padding-top: 4.75rem !important;
+  }
+}
+
+.section_header .container-large,
+.section_header .header_content {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* ============================================================
+   SINGLE BULLETPROOF FLOATING STICKY NAVBAR
+   ============================================================ */
+.site-floating-nav {
+  position: fixed !important;
+  top: 1rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 90% !important;
+  max-width: 1280px !important;
+  z-index: 1000 !important;
+  pointer-events: auto !important;
+  margin: 0 !important;
+}
+
+/* Ensure Webflow's global header rules never alter .site-floating-nav */
+header.site-floating-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  width: 90% !important;
+  max-width: 1280px !important;
+  line-height: normal !important;
+}
+
+
 
 

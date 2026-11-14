@@ -59,11 +59,11 @@ describe('Production-Safe Email Automation Test Suite', () => {
         unsubscribeUrl: 'https://example.com/api/unsubscribe?token=abc',
       });
 
-      assert.ok(rendered.subject.includes('Welcome to Eraysame Tech Academy'));
+      assert.ok(rendered.subject.includes('Welcome to UpBit Academy'));
       assert.ok(rendered.html.includes('<!DOCTYPE html>'));
       assert.ok(rendered.html.includes('Developer Dispatch'));
       assert.ok(rendered.text.length > 50);
-      assert.ok(rendered.text.includes('Welcome to Eraysame Tech Academy!'));
+      assert.ok(rendered.text.includes('Welcome to UpBit Academy!'));
       assert.ok(rendered.text.includes('Unsubscribe:'));
     });
 

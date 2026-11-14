@@ -568,10 +568,10 @@ section,
    position: relative !important;
 }
   
-header,
+/* header,
  .w-header {
-    position: relative !important;
-}
+    position: relative;
+} */
 
 
 .bg-overlay-label {   /* ensure inset works */
@@ -1078,3 +1078,48 @@ header,
   line-height: 1.2;
   font-weight: 700;
 }
+
+/* ============================================================
+   HERO SECTION & BACKGROUND EXPANSION TO TOP
+   ============================================================ */
+.section_header {
+  position: relative !important;
+  overflow: hidden !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  width: 100% !important;
+}
+
+.section_header .background-img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: top left !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  opacity: 1 !important;
+}
+
+.padding-global.padding-section-medium.add-hero-padding {
+  padding-top: 5.5rem !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+@media screen and (max-width: 767px) {
+  .padding-global.padding-section-medium.add-hero-padding {
+    padding-top: 4.75rem !important;
+  }
+}
+
+.section_header .container-large,
+.section_header .header_content {
+  position: relative !important;
+  z-index: 1 !important;
+}
+

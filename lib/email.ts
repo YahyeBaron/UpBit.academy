@@ -36,8 +36,8 @@ function getResendConfig(): { apiKey: string; fromEmail: string; replyToEmail: s
     throw new Error('RESEND_API_KEY is not configured in the environment.');
   }
 
-  const fromEmail = (process.env.RESEND_FROM_EMAIL || 'Eraysame Tech Academy <onboarding@resend.dev>').trim();
-  const replyToEmail = (process.env.SENDER_EMAIL || 'support@eraysame.com').trim();
+  const fromEmail = (process.env.RESEND_FROM_EMAIL || 'UpBit Academy <onboarding@resend.dev>').trim();
+  const replyToEmail = (process.env.SENDER_EMAIL || 'support@upbit.academy').trim();
 
   // Safety warning: If running in production with default Resend test onboarding domain
   if (process.env.NODE_ENV === 'production' && fromEmail.includes('onboarding@resend.dev')) {
@@ -257,7 +257,7 @@ export async function sendOperationalAlertEmail(
     details: data.details,
   });
 
-  const adminRecipient = process.env.SENDER_EMAIL || 'support@eraysame.com';
+  const adminRecipient = process.env.SENDER_EMAIL || 'support@upbit.academy';
 
   return dispatchResendEmail({
     to: adminRecipient,

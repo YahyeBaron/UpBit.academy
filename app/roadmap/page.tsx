@@ -1,7 +1,5 @@
 import { Metadata } from 'next';
 import { getCoursesAsync, getCurrentDbUserAsync } from '@/lib/db-data';
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
 import VisualRoadmap from '@/components/visual-roadmap';
 
 export const dynamic = 'force-dynamic';
@@ -34,8 +32,6 @@ export default async function RoadmapPage() {
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-[#4d65ff] selection:text-white font-sans antialiased">
-      <Navbar />
-
       <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 pb-24">
         {/* Subtle background ambient lighting */}
         <div
@@ -49,8 +45,6 @@ export default async function RoadmapPage() {
           user={userProfile}
         />
       </main>
-
-      <Footer />
     </div>
   );
 }

@@ -126,7 +126,7 @@ function wrapEmailLayout({
             <td style="padding: 32px 32px 20px 32px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
               <a href="${appUrl}" style="text-decoration: none; display: inline-block;">
                 <span style="font-size: 20px; font-weight: 800; letter-spacing: -0.02em; color: #ffffff;">
-                  <span style="color: #3b82f6;">ERAYSAME</span> TECH ACADEMY
+                  <span style="color: #3b82f6;">UPBIT</span> ACADEMY
                 </span>
               </a>
             </td>
@@ -155,7 +155,7 @@ function wrapEmailLayout({
           <tr>
             <td style="padding: 24px 32px; background-color: #050813; border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: center; font-size: 12px; color: #6b7280; line-height: 1.5;">
               <p style="margin: 0 0 8px 0;">
-                Eraysame Tech Academy &bull; Building Next-Gen Full-Stack & Systems Engineers
+                UpBit Academy &bull; Building Next-Gen Forward Deployed & AI Systems Engineers
               </p>
               <p style="margin: 0 0 8px 0;">
                 <a href="${appUrl}/dashboard" style="color: #9ca3af; text-decoration: underline; margin: 0 8px;">Dashboard</a>
@@ -190,7 +190,7 @@ export function renderWelcomeEmail(params: {
   unsubscribeUrl?: string;
 }): RenderedEmail {
   const appUrl = getAppUrl();
-  const subject = 'Welcome to Eraysame Tech Academy — Your Starter Kit & Developer Dispatch';
+  const subject = 'Welcome to UpBit Academy — Your Starter Kit & Developer Dispatch';
   const preheader = 'Your starter kit is ready. Explore Next.js 15, Three.js shaders, and SaaS architecture.';
 
   const contentHtml = `
@@ -216,7 +216,7 @@ export function renderWelcomeEmail(params: {
     </div>
   `;
 
-  const text = `Welcome to Eraysame Tech Academy!
+  const text = `Welcome to UpBit Academy!
 
 Your starter kit is ready. You are now subscribed to our developer dispatch with technical deep-dives into modern full-stack architectures, interactive 3D computing, and cloud systems.
 

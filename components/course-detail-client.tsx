@@ -141,7 +141,6 @@ export default function CourseDetailClientPage({
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-[#4d65ff] selection:text-white font-sans">
-      <Navbar />
 
       {/* Video Modal Component */}
       {isVideoModalOpen && (
@@ -691,7 +690,6 @@ export default function CourseDetailClientPage({
 
       </section>
 
-      <Footer />
     </div>
   );
 }

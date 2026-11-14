@@ -6,7 +6,7 @@ import { Award, Trophy, Lock } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 const ALL_BADGES = [
-  { icon: '🎉', name: 'Joined EST', key: 'joined', description: 'Signed up to EraySame Tech Academy' },
+  { icon: '🎉', name: 'Joined UpBit', key: 'joined', description: 'Signed up to UpBit Academy' },
   { icon: '🎯', name: 'First Lesson', key: 'first_lesson', description: 'Completed your first lesson' },
   { icon: '🔥', name: '7-Day Streak', key: 'streak_7', description: 'Learned 7 days in a row' },
   { icon: '⚡', name: 'Speed Learner', key: 'speed_learner', description: 'Completed 3 lessons in a day' },

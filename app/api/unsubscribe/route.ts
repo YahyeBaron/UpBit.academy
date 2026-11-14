@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
               You're Unsubscribed
             </h1>
             <p style="color: #9ca3af; font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
-              You have been successfully removed from Eraysame Tech Academy marketing dispatches and newsletter updates. You will still receive essential transactional emails regarding your active courses and certificates.
+              You have been successfully removed from UpBit Academy marketing dispatches and newsletter updates. You will still receive essential transactional emails regarding your active courses and certificates.
             </p>
             <a href="/" style="display: inline-block; background-color: #2563eb; color: #ffffff; text-decoration: none; font-weight: bold; padding: 10px 24px; border-radius: 9999px; font-size: 14px;">
               Return to Homepage
